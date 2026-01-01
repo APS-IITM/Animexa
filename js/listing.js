@@ -1,13 +1,16 @@
-const SHEET_ID = "1r0sIGtTOQ4Qmko_syfvaR5f55mrdmS-jQiiyO1gF2lA";
-const SHEET_NAME = "Products"; // <-- Update with your tab name
-const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+/* ================= CONFIG ================= */
+
+const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+const SUPABASE_KEY = "YOUR_PUBLIC_ANON_KEY";
+
+/* ========================================== */
 
 const type = new URLSearchParams(window.location.search).get("type");
 
 const titles = {
-  tools: "🚀 Premium Tools",
-  templates: "🎨 Pro Templates",
-  services: "🧠 Expert Services"
+  "animated-wallpaper": "🚀 Animated Wallpapers",
+  "live-wallpaper": "🎨 Live Wallpapers",
+  "animated-card": "🧠 Animated Cards"
 };
 
 document.getElementById("pageTitle").innerText =
@@ -18,13 +21,25 @@ const list = document.getElementById("product-list");
 
 let products = [];
 
-fetch(SHEET_URL)
-  .then(res => res.json())
-  .then(data => {
-    products = data.filter(p => p.product_type === type);
-    loader.style.display = "none";
-    render(products);
-  });
+/* ================= FETCH ================= */
+
+fetch(
+  `${SUPABASE_URL}/rest/v1/products?product_type=eq.${type}`,
+  {
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`
+    }
+  }
+)
+.then(res => res.json())
+.then(data => {
+  products = data;
+  loader.style.display = "none";
+  render(products);
+});
+
+/* ================= RENDER ================= */
 
 function render(data) {
   list.innerHTML = "";
@@ -47,16 +62,21 @@ function render(data) {
 }
 
 function view(id) {
-  window.top.location.href = `product.html?id=${id}&type=${type}`;
+  window.top.location.href =
+    `product.html?id=${id}&type=${type}`;
 }
+
+/* ================= SEARCH ================= */
 
 document.getElementById("search").oninput = e => {
   const v = e.target.value.toLowerCase();
   render(products.filter(p =>
     p.name.toLowerCase().includes(v) ||
-    p.tags.toLowerCase().includes(v)
+    (p.tags || "").toLowerCase().includes(v)
   ));
 };
+
+/* ================= SORT ================= */
 
 document.getElementById("sort").onchange = e => {
   let sorted = [...products];
