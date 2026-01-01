@@ -1,75 +1,117 @@
 :root {
-  --bg: #0f0f0f;
-  --card: #1a1a1a;
-  --text: #ffffff;
-  --muted: #b3b3b3;
-  --accent: #00ff99;
+    --bg: #050505;
+    --card: rgba(255,255,255,0.05);
+    --text: #ffffff;
+    --muted: #9ca3af;
+    --neon: #00ffcc;
+    --glow: 0 0 18px rgba(0,255,204,0.6);
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
-  padding: 20px;
+    background: radial-gradient(circle at top, #0b0b0b, #000);
+    color: var(--text);
+    font-family: 'Segoe UI', sans-serif;
+    padding: 30px;
 }
 
-h1 {
-  margin-bottom: 25px;
+.title {
+    text-align: center;
+    color: var(--neon);
+    text-shadow: var(--glow);
 }
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin: 30px auto;
+    max-width: 900px;
+}
+
+    .controls input,
+    .controls select {
+        flex: 1;
+        padding: 10px;
+        background: #111;
+        color: white;
+        border: 1px solid #333;
+        border-radius: 8px;
+    }
 
 #product-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
 }
 
 .product-card {
-  background: var(--card);
-  border-radius: 12px;
-  padding: 15px;
-  transition: transform 0.2s;
+    background: var(--card);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 18px;
+    border: 1px solid rgba(0,255,204,0.25);
+    transition: 0.3s;
 }
 
-.product-card:hover {
-  transform: scale(1.02);
-}
+    .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--glow);
+    }
 
-.product-card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 10px;
-}
+    .product-card img {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
 
-.product-card h3 {
-  margin: 12px 0 5px;
-}
-
-.product-card p {
-  font-size: 14px;
-  color: var(--muted);
+.tag {
+    display: inline-block;
+    background: #111;
+    padding: 4px 8px;
+    margin: 4px 4px 0 0;
+    border-radius: 6px;
+    font-size: 12px;
 }
 
 .buttons {
-  margin-top: 12px;
-  display: flex;
-  gap: 10px;
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
 }
 
 button {
-  padding: 8px 14px;
-  border: none;
-  cursor: pointer;
-  border-radius: 6px;
-  font-weight: bold;
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .view-btn {
-  background: #333;
-  color: white;
+    background: #111;
+    color: white;
 }
 
 .buy-btn {
-  background: var(--accent);
-  color: black;
+    background: var(--neon);
+    color: black;
+    box-shadow: var(--glow);
+}
+
+/* Loader */
+.loader {
+    width: 60px;
+    height: 60px;
+    border: 4px solid #222;
+    border-top: 4px solid var(--neon);
+    border-radius: 50%;
+    margin: 40px auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
 }
