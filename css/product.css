@@ -56,3 +56,19 @@ button {
         transform: translateY(0);
     }
 }
+.license {
+    margin: 14px 0;
+    padding: 10px 16px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.06);
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 14px;
+}
+
+    .license strong {
+        color: #00e5ff;
+        text-transform: capitalize;
+    }
+

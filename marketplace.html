@@ -5,19 +5,30 @@
     <title>Marketplace | NeoMotion</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/marketplace.css">
+    <!-- ✅ ADD THIS LINE - SUPABASE JS CLIENT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
     <header class="nav">
         <h2 id="marketTitle">Marketplace</h2>
 
-        <div class="tabs">
-            <button class="tab active" data-type="bundle">Bundles</button>
-            <button class="tab" data-type="individual">Individual</button>
+        <div class="filters">
+            <div class="tabs">
+                <button class="tab active" data-type="Bundle">Bundles</button>
+                <button class="tab" data-type="Individual">Individual</button>
+            </div>
+
+            <div class="licenses">
+                <button class="license active" data-license="Personal">Personal</button>
+                <button class="license" data-license="Commercial">Commercial</button>
+            </div>
         </div>
     </header>
 
-    <section class="grid" id="productGrid"></section>
+    <section class="grid" id="productGrid">
+        <p style="color: #999; text-align: center; padding: 40px;">Loading products...</p>
+    </section>
 
     <script src="js/marketplace.js"></script>
 </body>

@@ -11,6 +11,10 @@ document.getElementById("desc").innerText =
 
 document.getElementById("price").innerText = `₹${product.price}`;
 
+// NEW: License display
+document.getElementById("license").innerText =
+    product.license;
+
 document.getElementById("buy").onclick = () => {
     window.location.href = product.gumroad_url;
 };
