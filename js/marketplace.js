@@ -110,22 +110,79 @@ async function loadProducts() {
             const card = document.createElement("div");
             card.className = "card";
 
-            // ✅ UPDATED: Use video_url instead of image_url
-            const videoUrl = p.video_url || "https://via.placeholder.com/260x160?text=No+Video";
+            const videourl = p.video_url || "";
+            const thumbUrl =
+                p.thumbnail_url ||
+                p.video_url ||
+                "https://via.placeholder.com/260x160?text=No+Preview";
             const price = p.price ? `₹${p.price}` : "Contact";
             const description = p.short_desc || "No description available";
+            const name = p.name || "Untitled";
 
             card.innerHTML = `
-                <img src="${videoUrl}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/260x160?text=Error'"/>
-                <h3>${p.name}</h3>
-                <p>${description}</p>
-                <div class="price">${price}</div>
-                <div class="meta">
-                    <span>${p.product_type}</span>
-                    <span>${p.license}</span>
-                </div>
-            `;
+        <div class="card-media" style="position: relative; width: 100%; height: 160px; overflow: hidden; background:#000;">
+            <img
+                class="card-thumb"
+                src="${thumbUrl}"
+                alt="${name}"
+                style="width:100%;height:100%;object-fit:cover;display:block;transition:opacity 250ms ease;"
+                onerror="this.src='https://via.placeholder.com/260x160?text=No+Image';"
+            />
+            ${videourl
+                    ? `
+            <video
+                class="card-video"
+                src="${videourl}"
+                muted
+                loop
+                playsinline
+                style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 250ms ease;"
+            ></video>`
+                    : ""
+                }
+        </div>
+        <h3>${name}</h3>
+        <p>${description}</p>
+        <div class="price">${price}</div>
+        <div class="meta">
+            <span>${p.product_type}</span>
+            <span>${p.license}</span>
+        </div>
+    `;
 
+            // Hover: play video
+            card.addEventListener("mouseenter", () => {
+                const thumb = card.querySelector(".card-thumb");
+                const video = card.querySelector(".card-video");
+                if (!video) return;
+
+                if (thumb) thumb.style.opacity = "0";
+                video.style.opacity = "1";
+                video.currentTime = 0;
+
+                const playPromise = video.play();
+                if (playPromise && playPromise.catch) {
+                    playPromise.catch(() => {
+                        // Autoplay blocked → revert to image
+                        if (thumb) thumb.style.opacity = "1";
+                        video.style.opacity = "0";
+                    });
+                }
+            });
+
+            // Leave: pause video
+            card.addEventListener("mouseleave", () => {
+                const thumb = card.querySelector(".card-thumb");
+                const video = card.querySelector(".card-video");
+                if (!video) return;
+
+                video.pause();
+                video.currentTime = 0;
+                video.style.opacity = "0";
+                if (thumb) thumb.style.opacity = "1";
+            });
+
+            // Click → go to detail
             card.addEventListener("click", () => {
                 localStorage.setItem("selectedProduct", JSON.stringify(p));
                 window.location.href = "product.html";

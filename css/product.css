@@ -15,8 +15,19 @@ body {
     animation: fadeIn 1s ease;
 }
 
+/* Main video player */
+.product-video {
+    width: 420px;
+    max-width: 100%;
+    border-radius: 22px;
+    background: #000;
+    outline: none;
+}
+
+/* Fallback if you ever use <img> instead of <video> */
 img {
     width: 420px;
+    max-width: 100%;
     border-radius: 22px;
 }
 
@@ -56,6 +67,7 @@ button {
         transform: translateY(0);
     }
 }
+
 .license {
     margin: 14px 0;
     padding: 10px 16px;
@@ -71,4 +83,3 @@ button {
         color: #00e5ff;
         text-transform: capitalize;
     }
-
